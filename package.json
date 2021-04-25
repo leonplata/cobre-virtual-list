@@ -6,6 +6,12 @@
   "module": "oneup-virtual-list.js",
   "files": [
     "/src/",
+    "/math.d.ts",
+    "/math.js",
+    "/math.js.map",
+    "/math.spec.d.ts",
+    "/math.spec.js",
+    "/math.spec.js.map",
     "/oneup-virtual-list.d.ts",
     "/oneup-virtual-list.js",
     "/oneup-virtual-list.js.map",
@@ -14,10 +20,11 @@
     "/oneup-virtual-list-base.js.map"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
     "build": "tsc",
-    "build.watch": "tsc --watch",
-    "prepare": "npm run build"
+    "prepublish": "tsc",
+    "test": "tsc && wtr --coverage",
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "keywords": [
     "web components",
@@ -32,6 +39,11 @@
     "lit-element": "^2.4.0"
   },
   "devDependencies": {
+    "@open-wc/testing": "^2.5.33",
+    "@web/dev-server": "^0.1.16",
+    "@web/test-runner": "^0.13.2",
+    "concurrently": "^6.0.2",
+    "tslib": "^2.2.0",
     "typescript": "^4.2.4"
   }
 }

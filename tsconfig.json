@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
-    "declaration": true,
+    "target": "es2018",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "lib": ["es2017", "dom"],
+    "strict": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "module": "ES6",
-    "moduleResolution": "Node",
-    "noImplicitAny": true,
-    "removeComments": true,
+    "importHelpers": true,
     "outDir": "./",
-    "target": "ES6",
     "sourceMap": true,
-    "lib": ["DOM", "ES2015"],
-    "strictNullChecks": true
+    "inlineSources": true,
+    "declaration": true,
+    "incremental": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
