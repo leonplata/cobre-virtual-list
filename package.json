@@ -1,0 +1,37 @@
+{
+  "name": "@oneup/oneup-virtual-list",
+  "version": "0.0.0",
+  "description": "A virtual list based on LitElement",
+  "main": "oneup-virtual-list.js",
+  "module": "oneup-virtual-list.js",
+  "files": [
+    "/src/",
+    "/oneup-virtual-list.d.ts",
+    "/oneup-virtual-list.js",
+    "/oneup-virtual-list.js.map",
+    "/oneup-virtual-list-base.d.ts",
+    "/oneup-virtual-list-base.js",
+    "/oneup-virtual-list-base.js.map"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "build.watch": "tsc --watch",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "web components",
+    "virtual list"
+  ],
+  "author": {
+    "name": "Leon Plata",
+    "email": "pcg.leon@outlook.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lit-element": "^2.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  }
+}

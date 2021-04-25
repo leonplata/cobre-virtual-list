@@ -74,3 +74,11 @@ typings/
 
 # FuseBox cache
 .fusebox/
+
+# Build files
+/oneup-virtual-list.d.ts
+/oneup-virtual-list.js
+/oneup-virtual-list.js.map
+/oneup-virtual-list-base.d.ts
+/oneup-virtual-list-base.js
+/oneup-virtual-list-base.js.map
