@@ -1,6 +1,7 @@
 import { LitElement, html, css, property, internalProperty, TemplateResult } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map';
 import { calculateRange, RangeResult } from './math';
+import { render } from 'lit-html';
 
 export class VirtualListBase extends LitElement {
 
@@ -81,6 +82,14 @@ export class VirtualListBase extends LitElement {
     }
   `;
 
+  updated(changedProperties: Map<string, unknown>) {
+    super.updated(changedProperties);
+    const itemTemplate = this.itemTemplate;
+    if (itemTemplate) {
+      render(html`${this._virtualItems.map(item => itemTemplate(item))}`, this);
+    }
+  }
+
   render() {
     return html`
       <div style=${styleMap({
@@ -89,13 +98,7 @@ export class VirtualListBase extends LitElement {
         <div class="virtual" style=${styleMap({
           transform: `translate3d(0, ${this._range.pivot * this.itemHeight}px, 0)`
         })}>
-          ${this._virtualItems.map(item => html`
-            <div style=${styleMap({
-              height: `${this.itemHeight}px`,
-            })}>
-              ${this.itemTemplate && this.itemTemplate(item)}
-            </div>
-          `)}
+          <slot></slot>
         </div>
       </div>
     `;
