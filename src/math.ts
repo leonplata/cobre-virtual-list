@@ -13,9 +13,7 @@ export function calculateRange(
   if (itemsQuantity === 0 || itemHeight === 0 || itemColumns === 0 || viewportHeight === 0) {
     return { pivot: 0, length: 0 };
   }
-  const pivot = Math.floor(viewportOffset / itemHeight);
-  const pivotExceed = viewportOffset % itemHeight ? 1 : 0;
-  const viewportLength = Math.ceil(viewportHeight / itemHeight);
-  const length = Math.min(itemsQuantity, pivotExceed + viewportLength);
-  return { pivot, length };
+  const head = Math.max(0, Math.floor(viewportOffset / itemHeight));
+  const tail = Math.min(itemsQuantity, Math.ceil((viewportOffset + viewportHeight)/ itemHeight));
+  return { pivot: head, length: tail - head };
 }
