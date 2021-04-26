@@ -1,0 +1,49 @@
+{
+  "name": "@oneup/oneup-virtual-list",
+  "version": "0.0.0",
+  "description": "A virtual list based on LitElement",
+  "main": "oneup-virtual-list.js",
+  "module": "oneup-virtual-list.js",
+  "files": [
+    "/src/",
+    "/math.d.ts",
+    "/math.js",
+    "/math.js.map",
+    "/math.spec.d.ts",
+    "/math.spec.js",
+    "/math.spec.js.map",
+    "/oneup-virtual-list.d.ts",
+    "/oneup-virtual-list.js",
+    "/oneup-virtual-list.js.map",
+    "/oneup-virtual-list-base.d.ts",
+    "/oneup-virtual-list-base.js",
+    "/oneup-virtual-list-base.js.map"
+  ],
+  "scripts": {
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "build": "tsc",
+    "prepublish": "tsc",
+    "test": "tsc && wtr --coverage",
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
+  },
+  "keywords": [
+    "web components",
+    "virtual list"
+  ],
+  "author": {
+    "name": "Leon Plata",
+    "email": "pcg.leon@outlook.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lit-element": "^2.4.0"
+  },
+  "devDependencies": {
+    "@open-wc/testing": "^2.5.33",
+    "@web/dev-server": "^0.1.16",
+    "@web/test-runner": "^0.13.2",
+    "concurrently": "^6.0.2",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
+  }
+}
