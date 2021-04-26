@@ -82,22 +82,28 @@ export class VirtualListBase extends LitElement {
     }
   `;
 
-  updated(changedProperties: Map<string, unknown>) {
-    super.updated(changedProperties);
+  private _renderItemTemplate() {
     const itemTemplate = this.itemTemplate;
     if (itemTemplate) {
       render(html`${this._virtualItems.map(item => itemTemplate(item))}`, this);
     }
   }
 
+  updated(changedProperties: Map<string, unknown>) {
+    super.updated(changedProperties);
+    this._renderItemTemplate();
+  }
+
   render() {
+    const scrollContainerStyles = styleMap({
+      height: `${this.items.length * this.itemHeight}px`,
+    });
+    const virtualContainerStyles = styleMap({
+      transform: `translate3d(0, ${this._range.pivot * this.itemHeight}px, 0)`
+    });
     return html`
-      <div style=${styleMap({
-        height: `${this.items.length * this.itemHeight}px`,
-      })}>
-        <div class="virtual" style=${styleMap({
-          transform: `translate3d(0, ${this._range.pivot * this.itemHeight}px, 0)`
-        })}>
+      <div style=${scrollContainerStyles}>
+        <div style=${virtualContainerStyles}>
           <slot></slot>
         </div>
       </div>
