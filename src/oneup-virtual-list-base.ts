@@ -52,7 +52,6 @@ export class VirtualListBase extends LitElement {
   calculateViewport() {
     if (this.scrollTarget) {
       const scrollTargetRect = this.scrollTarget.getBoundingClientRect();
-      const hostRect = this.getBoundingClientRect();
       const range = calculateRange(this.items.length, this.itemHeight, this.itemColumns, scrollTargetRect.height, this.scrollTarget.scrollTop);
       const virtualItems: any[] = [];
       for (let i = range.pivot; i < (range.pivot + range.length); i++) {
@@ -92,6 +91,10 @@ export class VirtualListBase extends LitElement {
   updated(changedProperties: Map<string, unknown>) {
     super.updated(changedProperties);
     this._renderItemTemplate();
+  }
+
+  firstUpdated() {
+    this.calculateViewport();
   }
 
   render() {
