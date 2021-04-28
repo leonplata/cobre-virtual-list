@@ -15,9 +15,19 @@
     import { html, render } from 'lit-html';
     import './oneup-virtual-list.js';
 
+    const items = Array.from({ length: 100000 }).map((v, k) => ({ name: 'Item ' + k }));
+
     render(
       html`
-        <oneup-virtual-list>
+        <oneup-virtual-list
+          style="height: 300px;"
+          .itemHeight=${50}
+          .itemTemplate=${(item, slot) => html`
+            <div slot=${slot} @click=${() => alert(item.name)}>
+              ${item.name}
+            </div>
+          `}
+          .items=${items}>
         </oneup-virtual-list>
       `,
       document.querySelector('#demo')
