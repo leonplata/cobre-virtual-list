@@ -22,8 +22,8 @@
         <oneup-virtual-list
           style="height: 300px;"
           .itemHeight=${50}
-          .itemTemplate=${(item) => html`
-            <div style="height: 50px;">
+          .itemTemplate=${(item, slot) => html`
+            <div slot=${slot} @click=${() => alert(item.name)}>
               ${item.name}
             </div>
           `}

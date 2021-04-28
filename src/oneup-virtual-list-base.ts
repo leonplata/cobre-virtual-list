@@ -18,10 +18,7 @@ export class VirtualListBase extends LitElement {
   itemColumns: number = 1;
 
   @property({ type: Object })
-  itemTemplate?: (item: any) => TemplateResult;
-
-  @internalProperty()
-  private _virtualItems: any[] = [];
+  itemTemplate?: (item: any, slot: string) => TemplateResult;
 
   @internalProperty()
   private _range: RangeResult = { head: 0, length: 0 };
@@ -52,13 +49,7 @@ export class VirtualListBase extends LitElement {
   calculateViewport() {
     if (this.scrollTarget) {
       const scrollTargetRect = this.scrollTarget.getBoundingClientRect();
-      const range = calculateRange(this.items.length, this.itemHeight, this.itemColumns, scrollTargetRect.height, this.scrollTarget.scrollTop);
-      const virtualItems: any[] = [];
-      for (let i = range.head; i < (range.head + range.length); i++) {
-        virtualItems.push(this.items[i]);
-      }
-      this._range = range;
-      this._virtualItems = virtualItems;
+      this._range = calculateRange(this.items.length, this.itemHeight, this.itemColumns, scrollTargetRect.height, this.scrollTarget.scrollTop);
     }
   }
 
@@ -84,16 +75,11 @@ export class VirtualListBase extends LitElement {
   private _renderItemTemplate() {
     const itemTemplate = this.itemTemplate;
     if (itemTemplate) {
-      const items = this._virtualItems;
-      const head = this._range.head;
-      const itemHeight = this.itemHeight;
-      const templates = items.map((item, index) => {
-        const position = (head + index) * itemHeight;
-        const transform = `translate3d(0, ${position}px, 0)`;
-        const style = styleMap({transform});
-        const template = itemTemplate(item);
-        return html`<div style=${style}>${template}</div>`;
-      });
+      const templates = [];
+      for (let i = 0; i < this._range.length; i++) {
+        const item = this.items[this._range.head + i];
+        templates.push(itemTemplate(item, i.toString()));
+      }
       render(html`${templates}`, this);
     }
   }
@@ -109,7 +95,14 @@ export class VirtualListBase extends LitElement {
 
   render() {
     const height = `${this.items.length * this.itemHeight}px`;
-    const style = styleMap({height});
-    return html`<div style=${style}><slot></slot></div>`;
+    const containerStyle = styleMap({height});
+    const slots = [];
+    for (let i = 0; i < this._range.length; i++) {
+      const position = (this._range.head + i) * this.itemHeight;
+      const transform = `translate3d(0, ${position}px, 0)`;
+      const slotStyle = styleMap({transform, position: 'absolute'});
+      slots.push(html`<div style=${slotStyle}><slot name=${i}></slot></div>`);
+    }
+    return html`<div style=${containerStyle}>${slots}</div>`;
   }
 }
