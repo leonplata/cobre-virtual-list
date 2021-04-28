@@ -1,11 +1,11 @@
 import { customElement } from 'lit-element';
-import { VirtualListBase } from './oneup-virtual-list-base';
+import { VirtualListBase } from './cobre-virtual-list-base';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'oneup-virtual-list': VirtualList;
+    'cobre-virtual-list': VirtualList;
   }
 }
 
-@customElement('oneup-virtual-list')
+@customElement('cobre-virtual-list')
 export class VirtualList extends VirtualListBase {}

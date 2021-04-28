@@ -1,9 +1,9 @@
 {
-  "name": "@oneup/oneup-virtual-list",
+  "name": "@cobre/cobre-virtual-list",
   "version": "0.0.1-alpha.0",
   "description": "A virtual list based on LitElement",
-  "main": "oneup-virtual-list.js",
-  "module": "oneup-virtual-list.js",
+  "main": "cobre-virtual-list.js",
+  "module": "cobre-virtual-list.js",
   "files": [
     "/src/",
     "/math.d.ts",
@@ -12,12 +12,12 @@
     "/math.spec.d.ts",
     "/math.spec.js",
     "/math.spec.js.map",
-    "/oneup-virtual-list.d.ts",
-    "/oneup-virtual-list.js",
-    "/oneup-virtual-list.js.map",
-    "/oneup-virtual-list-base.d.ts",
-    "/oneup-virtual-list-base.js",
-    "/oneup-virtual-list-base.js.map"
+    "/cobre-virtual-list.d.ts",
+    "/cobre-virtual-list.js",
+    "/cobre-virtual-list.js.map",
+    "/cobre-virtual-list-base.d.ts",
+    "/cobre-virtual-list-base.js",
+    "/cobre-virtual-list-base.js.map"
   ],
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",

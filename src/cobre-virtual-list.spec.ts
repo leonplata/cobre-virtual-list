@@ -1,11 +1,11 @@
 import { html, fixture, expect } from '@open-wc/testing';
-import { VirtualList } from './oneup-virtual-list.js';
-import './oneup-virtual-list.js';
+import { VirtualList } from './cobre-virtual-list.js';
+import './cobre-virtual-list.js';
 
-describe('oneup-virtual-list', () => {
+describe('cobre-virtual-list', () => {
   it('should print something', async () => {
     const el = await fixture<VirtualList>(html`
-      <oneup-virtual-list></oneup-virtual-list>
+      <cobre-virtual-list></cobre-virtual-list>
     `);
     expect(el).to.be.instanceOf(VirtualList);
   });

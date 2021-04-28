@@ -13,13 +13,13 @@
 
   <script type="module">
     import { html, render } from 'lit-html';
-    import './oneup-virtual-list.js';
+    import './cobre-virtual-list.js';
 
     const items = Array.from({ length: 100000 }).map((v, k) => ({ name: 'Item ' + k }));
 
     render(
       html`
-        <oneup-virtual-list
+        <cobre-virtual-list
           style="height: 300px;"
           .itemHeight=${50}
           .itemTemplate=${(item, slot) => html`
@@ -28,7 +28,7 @@
             </div>
           `}
           .items=${items}>
-        </oneup-virtual-list>
+        </cobre-virtual-list>
       `,
       document.querySelector('#demo')
     );
