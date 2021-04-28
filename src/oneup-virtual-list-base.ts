@@ -24,7 +24,7 @@ export class VirtualListBase extends LitElement {
   private _virtualItems: any[] = [];
 
   @internalProperty()
-  private _range: RangeResult = { pivot: 0, length: 0 };
+  private _range: RangeResult = { head: 0, length: 0 };
 
   private _resizeObserver: ResizeObserver = new ResizeObserver(this.calculateViewport);
 
@@ -54,7 +54,7 @@ export class VirtualListBase extends LitElement {
       const scrollTargetRect = this.scrollTarget.getBoundingClientRect();
       const range = calculateRange(this.items.length, this.itemHeight, this.itemColumns, scrollTargetRect.height, this.scrollTarget.scrollTop);
       const virtualItems: any[] = [];
-      for (let i = range.pivot; i < (range.pivot + range.length); i++) {
+      for (let i = range.head; i < (range.head + range.length); i++) {
         virtualItems.push(this.items[i]);
       }
       this._range = range;
@@ -84,7 +84,17 @@ export class VirtualListBase extends LitElement {
   private _renderItemTemplate() {
     const itemTemplate = this.itemTemplate;
     if (itemTemplate) {
-      render(html`${this._virtualItems.map(item => itemTemplate(item))}`, this);
+      const items = this._virtualItems;
+      const head = this._range.head;
+      const itemHeight = this.itemHeight;
+      const templates = items.map((item, index) => {
+        const position = (head + index) * itemHeight;
+        const transform = `translate3d(0, ${position}px, 0)`;
+        const style = styleMap({transform});
+        const template = itemTemplate(item);
+        return html`<div style=${style}>${template}</div>`;
+      });
+      render(html`${templates}`, this);
     }
   }
 
@@ -98,18 +108,8 @@ export class VirtualListBase extends LitElement {
   }
 
   render() {
-    const scrollContainerStyles = styleMap({
-      height: `${this.items.length * this.itemHeight}px`,
-    });
-    const virtualContainerStyles = styleMap({
-      transform: `translate3d(0, ${this._range.pivot * this.itemHeight}px, 0)`
-    });
-    return html`
-      <div style=${scrollContainerStyles}>
-        <div style=${virtualContainerStyles}>
-          <slot></slot>
-        </div>
-      </div>
-    `;
+    const height = `${this.items.length * this.itemHeight}px`;
+    const style = styleMap({height});
+    return html`<div style=${style}><slot></slot></div>`;
   }
 }
