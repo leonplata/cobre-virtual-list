@@ -1,6 +1,6 @@
 {
   "name": "@cobre/cobre-virtual-list",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.2-alpha.0",
   "description": "A virtual list based on LitElement",
   "main": "cobre-virtual-list.js",
   "module": "cobre-virtual-list.js",
