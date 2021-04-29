@@ -68,7 +68,13 @@ export class VirtualListBase extends LitElement {
     :host {
       display: block;
       overflow-y: auto;
+    }
+    .container {
       position: relative;
+    }
+    .virtual-item {
+      position: absolute;
+      width: 100%;
     }
   `;
 
@@ -100,9 +106,9 @@ export class VirtualListBase extends LitElement {
     for (let i = 0; i < this._range.length; i++) {
       const position = (this._range.head + i) * this.itemHeight;
       const transform = `translate3d(0, ${position}px, 0)`;
-      const slotStyle = styleMap({transform, position: 'absolute'});
-      slots.push(html`<div style=${slotStyle}><slot name=${i}></slot></div>`);
+      const slotStyle = styleMap({transform});
+      slots.push(html`<div class="virtual-item" style=${slotStyle}><slot name=${i}></slot></div>`);
     }
-    return html`<div style=${containerStyle}>${slots}</div>`;
+    return html`<div class="container" style=${containerStyle}>${slots}</div>`;
   }
 }
