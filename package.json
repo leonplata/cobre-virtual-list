@@ -4,6 +4,10 @@
   "description": "A virtual list based on LitElement",
   "main": "cobre-virtual-list.js",
   "module": "cobre-virtual-list.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leonplata/cobre-virtual-list.git"
+  },
   "files": [
     "/src/",
     "/math.d.ts",
@@ -45,5 +49,8 @@
     "concurrently": "^6.0.2",
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
