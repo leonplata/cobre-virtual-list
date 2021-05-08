@@ -12,26 +12,58 @@
   <div id="demo"></div>
 
   <script type="module">
-    import { html, render } from 'lit-html';
+    import { LitElement, css, html } from 'lit-element';
     import './cobre-virtual-list.js';
 
-    const items = Array.from({ length: 100000 }).map((v, k) => ({ name: 'Item ' + k }));
+    class DemoVirtualList extends LitElement {
 
-    render(
-      html`
-        <cobre-virtual-list
-          style="height: 300px;"
-          .itemHeight=${50}
-          .itemTemplate=${(item, slot) => html`
-            <div slot=${slot} @click=${() => alert(item.name)}>
-              ${item.name}
-            </div>
-          `}
-          .items=${items}>
-        </cobre-virtual-list>
-      `,
-      document.querySelector('#demo')
-    );
+      static get properties() {
+        return {
+          items: { type: Array },
+        };
+      }
+
+      constructor() {
+        super();
+        this.items = Array.from({ length: 100000 }).map((v, k) => ({ name: 'Item ' + k, checked: true }));
+      }
+
+      static get styles() {
+        return [`
+          :host {
+            display: block;
+          }
+        `];
+      }
+
+      render() {
+        console.log(this.items);
+        return html`
+          <cobre-virtual-list
+            style="height: 300px;"
+            .itemHeight=${50}
+            .itemTemplate=${(item, slot, index) => html`
+              <div slot=${slot}>
+                <span @click=${() => alert(item.name)}>${item.name}</span>
+                <input type="checkbox" .checked=${item.checked} @change=${(event) => {
+                  const items = [...this.items];
+                  items[index] = {
+                    ...items[index],
+                    checked: !item.checked,
+                  };
+                  this.items = items;
+                }}>
+                <span>${item.checked ? 'true' : 'false'}</span>
+              </div>
+            `}
+            .items=${this.items}>
+          </cobre-virtual-list>
+        `;
+      }
+    }
+
+    window.customElements.define('demo-virtual-list', DemoVirtualList);
   </script>
+  <demo-virtual-list></demo-virtual-list>
 </body>
 </html>

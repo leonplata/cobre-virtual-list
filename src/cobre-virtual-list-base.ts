@@ -18,7 +18,7 @@ export class VirtualListBase extends LitElement {
   itemColumns: number = 1;
 
   @property({ type: Object })
-  itemTemplate?: (item: any, slot: string) => TemplateResult;
+  itemTemplate?: (item: any, slot: string, index: number) => TemplateResult;
 
   @internalProperty()
   private _range: RangeResult = { head: 0, length: 0 };
@@ -82,15 +82,19 @@ export class VirtualListBase extends LitElement {
     const itemTemplate = this.itemTemplate;
     if (itemTemplate) {
       const templates = [];
-      for (let i = 0; i < this._range.length; i++) {
-        const item = this.items[this._range.head + i];
-        templates.push(itemTemplate(item, i.toString()));
+      for (let realIndex = 0; realIndex < this._range.length; realIndex++) {
+        const virtualIndex = this._range.head + realIndex;
+        const item = this.items[virtualIndex];
+        templates.push(itemTemplate(item, realIndex.toString(), virtualIndex));
       }
       render(html`${templates}`, this);
     }
   }
 
   updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has('items')) {
+      this.calculateViewport();
+    }
     super.updated(changedProperties);
     this._renderItemTemplate();
   }
