@@ -86,7 +86,9 @@ export class VirtualListBase extends LitElement {
         const virtualIndex = (this._range.head * this.itemColumns) + realIndex;
         for (let c = 0; c < this.itemColumns; c++) {
           const item = this.items[virtualIndex + c];
-          templates.push(itemTemplate(item, (realIndex + c).toString(), virtualIndex + c));
+          if (item) {
+            templates.push(itemTemplate(item, (realIndex + c).toString(), virtualIndex + c));
+          }
         }
       }
       render(html`${templates}`, this);
