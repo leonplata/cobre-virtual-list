@@ -82,10 +82,12 @@ export class VirtualListBase extends LitElement {
     const itemTemplate = this.itemTemplate;
     if (itemTemplate) {
       const templates = [];
-      for (let realIndex = 0; realIndex < this._range.length; realIndex++) {
-        const virtualIndex = this._range.head + realIndex;
-        const item = this.items[virtualIndex];
-        templates.push(itemTemplate(item, realIndex.toString(), virtualIndex));
+      for (let realIndex = 0; realIndex < (this._range.length * this.itemColumns); realIndex += this.itemColumns) {
+        const virtualIndex = (this._range.head * this.itemColumns) + realIndex;
+        for (let c = 0; c < this.itemColumns; c++) {
+          const item = this.items[virtualIndex + c];
+          templates.push(itemTemplate(item, (realIndex + c).toString(), virtualIndex + c));
+        }
       }
       render(html`${templates}`, this);
     }
@@ -108,7 +110,7 @@ export class VirtualListBase extends LitElement {
     const containerStyle = styleMap({height});
     const slots = [];
     const width = (100 / this.itemColumns) + '%';
-    for (let i = 0; i < this._range.length; i++) {
+    for (let i = 0; i < (this._range.length * this.itemColumns); i++) {
       const position = (this._range.head + Math.floor(i / this.itemColumns)) * this.itemHeight;
       const transform = `translate3d(${100 * (i % this.itemColumns)}%, ${position}px, 0)`;
       const slotStyle = styleMap({transform, width});
