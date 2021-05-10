@@ -107,10 +107,11 @@ export class VirtualListBase extends LitElement {
     const height = `${this.items.length * this.itemHeight / this.itemColumns}px`;
     const containerStyle = styleMap({height});
     const slots = [];
+    const width = (100 / this.itemColumns) + '%';
     for (let i = 0; i < this._range.length; i++) {
-      const position = (this._range.head + i) * this.itemHeight;
-      const transform = `translate3d(0, ${position}px, 0)`;
-      const slotStyle = styleMap({transform});
+      const position = (this._range.head + Math.floor(i / this.itemColumns)) * this.itemHeight;
+      const transform = `translate3d(${100 * (i % this.itemColumns)}%, ${position}px, 0)`;
+      const slotStyle = styleMap({transform, width});
       slots.push(html`<div class="virtual-item" style=${slotStyle}><slot name=${i}></slot></div>`);
     }
     return html`<div class="container" style=${containerStyle}>${slots}</div>`;
