@@ -37,10 +37,10 @@
       }
 
       render() {
-        console.log(this.items);
         return html`
           <cobre-virtual-list
             style="height: 300px;"
+            .itemColumns=${3}
             .itemHeight=${50}
             .itemTemplate=${(item, slot, index) => html`
               <div slot=${slot}>

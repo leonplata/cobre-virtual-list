@@ -82,10 +82,14 @@ export class VirtualListBase extends LitElement {
     const itemTemplate = this.itemTemplate;
     if (itemTemplate) {
       const templates = [];
-      for (let realIndex = 0; realIndex < this._range.length; realIndex++) {
-        const virtualIndex = this._range.head + realIndex;
-        const item = this.items[virtualIndex];
-        templates.push(itemTemplate(item, realIndex.toString(), virtualIndex));
+      for (let realIndex = 0; realIndex < (this._range.length * this.itemColumns); realIndex += this.itemColumns) {
+        const virtualIndex = (this._range.head * this.itemColumns) + realIndex;
+        for (let c = 0; c < this.itemColumns; c++) {
+          const item = this.items[virtualIndex + c];
+          if (item) {
+            templates.push(itemTemplate(item, (realIndex + c).toString(), virtualIndex + c));
+          }
+        }
       }
       render(html`${templates}`, this);
     }
@@ -104,13 +108,14 @@ export class VirtualListBase extends LitElement {
   }
 
   render() {
-    const height = `${this.items.length * this.itemHeight}px`;
+    const height = `${this.items.length * this.itemHeight / this.itemColumns}px`;
     const containerStyle = styleMap({height});
     const slots = [];
-    for (let i = 0; i < this._range.length; i++) {
-      const position = (this._range.head + i) * this.itemHeight;
-      const transform = `translate3d(0, ${position}px, 0)`;
-      const slotStyle = styleMap({transform});
+    const width = (100 / this.itemColumns) + '%';
+    for (let i = 0; i < (this._range.length * this.itemColumns); i++) {
+      const position = (this._range.head + Math.floor(i / this.itemColumns)) * this.itemHeight;
+      const transform = `translate3d(${100 * (i % this.itemColumns)}%, ${position}px, 0)`;
+      const slotStyle = styleMap({transform, width});
       slots.push(html`<div class="virtual-item" style=${slotStyle}><slot name=${i}></slot></div>`);
     }
     return html`<div class="container" style=${containerStyle}>${slots}</div>`;
