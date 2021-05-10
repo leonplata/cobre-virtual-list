@@ -104,7 +104,7 @@ export class VirtualListBase extends LitElement {
   }
 
   render() {
-    const height = `${this.items.length * this.itemHeight}px`;
+    const height = `${this.items.length * this.itemHeight / this.itemColumns}px`;
     const containerStyle = styleMap({height});
     const slots = [];
     for (let i = 0; i < this._range.length; i++) {
