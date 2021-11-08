@@ -1,7 +1,7 @@
-import { LitElement, html, css, property, internalProperty, TemplateResult } from 'lit-element';
-import { styleMap } from 'lit-html/directives/style-map';
+import { LitElement, html, css, TemplateResult, render } from 'lit';
+import { property, state } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { calculateRange, RangeResult } from './math';
-import { render } from 'lit-html';
 
 export class VirtualListBase extends LitElement {
 
@@ -20,7 +20,7 @@ export class VirtualListBase extends LitElement {
   @property({ type: Object })
   itemTemplate?: (item: any, slot: string, index: number) => TemplateResult;
 
-  @internalProperty()
+  @state()
   private _range: RangeResult = { head: 0, length: 0 };
 
   private _resizeObserver: ResizeObserver = new ResizeObserver(this.calculateViewport);
@@ -109,15 +109,13 @@ export class VirtualListBase extends LitElement {
 
   render() {
     const height = `${this.items.length * this.itemHeight / this.itemColumns}px`;
-    const containerStyle = styleMap({height});
     const slots = [];
     const width = (100 / this.itemColumns) + '%';
     for (let i = 0; i < (this._range.length * this.itemColumns); i++) {
       const position = (this._range.head + Math.floor(i / this.itemColumns)) * this.itemHeight;
       const transform = `translate3d(${100 * (i % this.itemColumns)}%, ${position}px, 0)`;
-      const slotStyle = styleMap({transform, width});
-      slots.push(html`<div class="virtual-item" style=${slotStyle}><slot name=${i}></slot></div>`);
+      slots.push(html`<div class="virtual-item" style=${styleMap({transform, width})}><slot name=${i}></slot></div>`);
     }
-    return html`<div class="container" style=${containerStyle}>${slots}</div>`;
+    return html`<div class="container" style=${styleMap({height})}>${slots}</div>`;
   }
 }
