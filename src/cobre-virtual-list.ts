@@ -1,4 +1,4 @@
-import { customElement } from 'lit-element';
+import { customElement } from 'lit/decorators.js';
 import { VirtualListBase } from './cobre-virtual-list-base';
 
 declare global {
